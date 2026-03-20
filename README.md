@@ -1,16 +1,33 @@
 # ShopWave E-commerce Web Application
 
-## Project Overview
+ShopWave is a full-stack e-commerce web application built with:
 
-ShopWave is a complete e-commerce web application built with a clean 3-tier architecture:
+- Frontend: React + Vite
+- Backend: FastAPI
+- Database: MySQL
 
-1. Frontend: React application for the user interface
-2. Backend: FastAPI REST API for business logic
-3. Database: MySQL for persistent data storage
+This project is simple, clean, and suitable for B.Tech academic submission, mini-project work, and viva explanation.
 
-This project is designed to be simple, readable, and suitable for B.Tech academic submission and viva. It covers product browsing, authentication, cart management, and order placement.
+## Features
 
-## Folder Structure
+- User registration and login with JWT authentication
+- Product listing page
+- Product details page
+- Add to cart and remove from cart
+- Checkout and order placement
+- Responsive frontend UI
+- REST API backend
+- MySQL database schema with sample products
+
+## Tech Stack
+
+- React
+- FastAPI
+- SQLAlchemy
+- MySQL
+- JWT Authentication
+
+## Project Structure
 
 ```text
 shopwave/
@@ -41,77 +58,104 @@ shopwave/
 ├── docs/
 │   ├── postman-examples.md
 │   └── shopwave-postman-collection.json
-├── .gitignore
 └── README.md
 ```
 
-## Backend Code
+## Quick Start
 
-### Main Features
+### 1. Start MySQL
 
-- JWT-based login and registration
-- Product listing and single product details
-- Add to cart, remove from cart, and view cart
-- Place order from cart
-- MySQL integration using SQLAlchemy
+Make sure your MySQL server is running.
 
-### Backend Run Command
+Example:
+
+```bash
+brew services start mysql
+```
+
+### 2. Create the Database
+
+Run:
+
+```bash
+mysql -h 127.0.0.1 -P 3306 -u root < database/schema.sql
+```
+
+### 3. Start the Backend
 
 ```bash
 cd backend
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-## Frontend Code
+Backend URL:
 
-### Main Features
+```text
+http://127.0.0.1:8000
+```
 
-- Home page with product listing
-- Product details page
-- Login/Register page
-- Cart page
-- Checkout page
-- Reusable header and product card components
-- Responsive UI using plain CSS
+### 4. Start the Frontend
 
-### Frontend Run Command
+Open a new terminal:
 
 ```bash
 cd frontend
 npm install
 cp .env.example .env
-npm run dev
+npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-## Database Schema
+Frontend URL:
 
-The MySQL schema is available in [database/schema.sql](/Users/aarushgupta/Desktop/shopwave/database/schema.sql).
-
-### Run the SQL file
-
-```bash
-mysql -u root -p < database/schema.sql
+```text
+http://127.0.0.1:5173
 ```
 
-## REST API Endpoints
+## Demo Login
 
-| URL | Method | Request Body | Response Format |
-| --- | --- | --- | --- |
-| `/api/auth/register` | `POST` | `{ "name", "email", "password" }` | `{ "access_token", "token_type", "user" }` |
-| `/api/auth/login` | `POST` | `{ "email", "password" }` | `{ "access_token", "token_type", "user" }` |
-| `/api/products` | `GET` | None | `[ { "id", "name", "description", "price", "image_url", "stock", "category" } ]` |
-| `/api/products/{product_id}` | `GET` | None | `{ "id", "name", "description", "price", "image_url", "stock", "category" }` |
-| `/api/cart` | `GET` | None | `{ "items": [], "total_amount": 0 }` |
-| `/api/cart` | `POST` | `{ "product_id", "quantity" }` | `{ "items": [], "total_amount": 0 }` |
-| `/api/cart/{product_id}` | `DELETE` | None | `{ "items": [], "total_amount": 0 }` |
-| `/api/orders` | `GET` | None | `[ { "id", "status", "shipping_address", "payment_method", "total_amount", "items" } ]` |
-| `/api/orders` | `POST` | `{ "shipping_address", "payment_method" }` | `{ "message", "order" }` |
+You can log in with this demo account:
 
-## Example Request Bodies
+- Email: `demo@shopwave.com`
+- Password: `password123`
+
+If the account does not exist yet, register it from the UI first.
+
+## Environment Files
+
+### Backend `.env`
+
+```env
+DATABASE_URL=mysql+pymysql://root@127.0.0.1:3306/shopwave
+SECRET_KEY=change-this-secret-key
+ACCESS_TOKEN_EXPIRE_MINUTES=60
+FRONTEND_URL=http://127.0.0.1:5173
+```
+
+### Frontend `.env`
+
+```env
+VITE_API_URL=http://127.0.0.1:8000
+```
+
+## API Endpoints
+
+| URL | Method | Description |
+| --- | --- | --- |
+| `/api/auth/register` | `POST` | Register a new user |
+| `/api/auth/login` | `POST` | Login user |
+| `/api/products` | `GET` | Get all products |
+| `/api/products/{product_id}` | `GET` | Get single product |
+| `/api/cart` | `GET` | View cart |
+| `/api/cart` | `POST` | Add item to cart |
+| `/api/cart/{product_id}` | `DELETE` | Remove item from cart |
+| `/api/orders` | `GET` | View user orders |
+| `/api/orders` | `POST` | Place an order |
+
+## Sample Request Bodies
 
 ### Register
 
@@ -132,7 +176,7 @@ mysql -u root -p < database/schema.sql
 }
 ```
 
-### Add to Cart
+### Add To Cart
 
 ```json
 {
@@ -150,91 +194,24 @@ mysql -u root -p < database/schema.sql
 }
 ```
 
-## Example JSON Responses
+## Important Files
 
-### Login Success
-
-```json
-{
-  "access_token": "<JWT_TOKEN>",
-  "token_type": "bearer",
-  "user": {
-    "id": 1,
-    "name": "Aarush Gupta",
-    "email": "aarush@example.com"
-  }
-}
-```
-
-### Products List
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Wireless Headphones",
-    "description": "Comfortable over-ear headphones with noise reduction and long battery life.",
-    "price": 2499.0,
-    "image_url": "https://images.unsplash.com/...",
-    "stock": 20,
-    "category": "Electronics"
-  }
-]
-```
-
-### Cart Response
-
-```json
-{
-  "items": [
-    {
-      "id": 1,
-      "quantity": 2,
-      "product": {
-        "id": 1,
-        "name": "Wireless Headphones",
-        "price": 2499.0,
-        "image_url": "https://images.unsplash.com/..."
-      }
-    }
-  ],
-  "total_amount": 4998.0
-}
-```
-
-## Step-by-Step Implementation
-
-### 1. Set Up Backend
-
-1. Open terminal in the project folder.
-2. Move to the backend folder.
-3. Create and activate a virtual environment.
-4. Install Python dependencies.
-5. Copy `.env.example` to `.env`.
-6. Start the FastAPI server.
-
-### 2. Connect MySQL
-
-1. Make sure MySQL server is running.
-2. Create the database by running `database/schema.sql`.
-3. Update `DATABASE_URL` in `backend/.env`.
-4. Restart the backend server.
-
-### 3. Run Frontend
-
-1. Move to the frontend folder.
-2. Install dependencies using `npm install`.
-3. Copy `.env.example` to `.env`.
-4. Start the development server using `npm run dev`.
+- Backend entry: `backend/app/main.py`
+- Frontend entry: `frontend/src/main.jsx`
+- Main app component: `frontend/src/App.jsx`
+- MySQL schema: `database/schema.sql`
+- Postman examples: `docs/postman-examples.md`
+- Postman collection: `docs/shopwave-postman-collection.json`
 
 ## Postman Support
 
-Detailed sample requests are available in [docs/postman-examples.md](/Users/aarushgupta/Desktop/shopwave/docs/postman-examples.md).
+You can test the API using:
 
-You can also import the ready-made collection file: [docs/shopwave-postman-collection.json](/Users/aarushgupta/Desktop/shopwave/docs/shopwave-postman-collection.json).
+- `docs/postman-examples.md`
+- `docs/shopwave-postman-collection.json`
 
 ## Notes
 
-- The backend automatically creates tables at startup using SQLAlchemy.
-- The SQL file is still included for manual setup and academic explanation.
-- For production, move the secret key to a secure environment and use stronger deployment settings.
+- The backend creates tables automatically at startup if the database exists.
+- Sample product data is added from `database/schema.sql`.
+- For real production use, update the secret key and database credentials.
