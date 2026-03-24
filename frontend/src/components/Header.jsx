@@ -29,13 +29,17 @@ function Header() {
         <NavLink to="/cart">Cart ({cartCount})</NavLink>
         {isAuthenticated ? (
           <>
+            <NavLink to="/orders">My Orders</NavLink>
             <span className="welcome-text">Hi, {user?.name}</span>
             <button className="secondary-button" onClick={handleLogout}>
               Logout
             </button>
           </>
         ) : (
-          <NavLink to="/auth">Login</NavLink>
+          <>
+            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/register">Register</NavLink>
+          </>
         )}
       </nav>
     </header>

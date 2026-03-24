@@ -32,7 +32,7 @@ function HomePage() {
 
   async function handleAddToCart(productId) {
     if (!isAuthenticated) {
-      navigate("/auth");
+      navigate("/login");
       return;
     }
 

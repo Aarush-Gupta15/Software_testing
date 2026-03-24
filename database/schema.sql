@@ -51,5 +51,14 @@ CREATE TABLE IF NOT EXISTS order_items (
 INSERT INTO products (name, description, price, image_url, stock, category) VALUES
 ('Wireless Headphones', 'Comfortable over-ear headphones with noise reduction and long battery life.', 2499.00, 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80', 20, 'Electronics'),
 ('Smart Watch', 'Track daily activity, heart rate, and notifications on the go.', 3999.00, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80', 15, 'Wearables'),
-('Laptop Backpack', 'Water-resistant backpack with padded laptop sleeve and multiple compartments.', 1499.00, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80', 30, 'Accessories'),
-('Study Desk Lamp', 'LED desk lamp with brightness control for late-night study sessions.', 899.00, 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=900&q=80', 25, 'Home');
+('Laptop Backpack', 'Water-resistant backpack with padded laptop sleeve and multiple compartments.', 1499.00, 'https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=900&q=80', 30, 'Accessories'),
+('Study Desk Lamp', 'LED desk lamp with brightness control for late-night study sessions.', 899.00, 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80', 25, 'Home');
+
+UPDATE products
+SET image_url = CASE name
+    WHEN 'Wireless Headphones' THEN 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80'
+    WHEN 'Smart Watch' THEN 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80'
+    WHEN 'Laptop Backpack' THEN 'https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=900&q=80'
+    WHEN 'Study Desk Lamp' THEN 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80'
+    ELSE image_url
+END;

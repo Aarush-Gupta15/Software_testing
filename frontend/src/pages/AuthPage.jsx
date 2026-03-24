@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 
-function AuthPage() {
+function AuthPage({ mode = "login" }) {
   const navigate = useNavigate();
   const { login, register } = useAuth();
-  const [mode, setMode] = useState("login");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,19 +39,16 @@ function AuthPage() {
   return (
     <section className="auth-layout">
       <div className="auth-card">
-        <div className="auth-tabs">
-          <button
-            className={mode === "login" ? "tab-button active-tab" : "tab-button"}
-            onClick={() => setMode("login")}
-          >
-            Login
-          </button>
-          <button
-            className={mode === "register" ? "tab-button active-tab" : "tab-button"}
-            onClick={() => setMode("register")}
-          >
-            Register
-          </button>
+        <div className="auth-header">
+          <span className="eyebrow">
+            {mode === "login" ? "Welcome back" : "Create your account"}
+          </span>
+          <h1>{mode === "login" ? "Login" : "Register"}</h1>
+          <p className="auth-helper-text">
+            {mode === "login"
+              ? "Sign in to manage your cart, checkout, and view your orders."
+              : "Register once and you can place orders and track them from My Orders."}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -96,6 +92,13 @@ function AuthPage() {
           <button type="submit" className="primary-button full-width">
             {mode === "login" ? "Login" : "Create Account"}
           </button>
+
+          <p className="auth-switch-text">
+            {mode === "login" ? "New here?" : "Already have an account?"}{" "}
+            <Link to={mode === "login" ? "/register" : "/login"}>
+              {mode === "login" ? "Register" : "Login"}
+            </Link>
+          </p>
         </form>
       </div>
     </section>

@@ -1,4 +1,20 @@
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const AUTH_STORAGE_KEY = "shopwave-auth";
+
+function handleUnauthorized(message) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  localStorage.removeItem(AUTH_STORAGE_KEY);
+
+  const currentPath = window.location.pathname;
+  if (currentPath !== "/login") {
+    window.location.href = "/login";
+  }
+
+  throw new Error(message || "Your session has expired. Please log in again.");
+}
 
 function formatErrorMessage(detail) {
   if (!detail) {
@@ -44,7 +60,13 @@ async function request(path, options = {}) {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(formatErrorMessage(data.detail));
+    const errorMessage = formatErrorMessage(data.detail);
+
+    if (response.status === 401 && errorMessage === "Invalid or expired token") {
+      handleUnauthorized("Your session has expired. Please log in again.");
+    }
+
+    throw new Error(errorMessage);
   }
 
   return data;

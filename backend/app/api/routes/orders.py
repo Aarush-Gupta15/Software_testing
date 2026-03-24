@@ -34,9 +34,12 @@ def list_orders(
             "total_amount": order.total_amount,
             "items": [
                 {
+                    "product_id": item.product.id,
                     "product_name": item.product.name,
+                    "image_url": item.product.image_url,
                     "quantity": item.quantity,
                     "price": item.price,
+                    "subtotal": item.quantity * item.price,
                 }
                 for item in order.items
             ],

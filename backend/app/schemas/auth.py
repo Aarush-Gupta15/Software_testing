@@ -12,7 +12,13 @@ class UserLogin(BaseModel):
     password: str
 
 
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
-    user: dict
+    user: UserResponse

@@ -28,7 +28,7 @@ function ProductDetailsPage() {
 
   async function handleAddToCart() {
     if (!isAuthenticated) {
-      navigate("/auth");
+      navigate("/login");
       return;
     }
 

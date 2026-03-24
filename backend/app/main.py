@@ -1,5 +1,7 @@
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.api.routes import auth, cart, orders, products
 from app.core.config import settings
@@ -10,6 +12,25 @@ app = FastAPI(
     description="Simple e-commerce backend built with FastAPI and MySQL.",
     version="1.0.0",
 )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(_, exc: RequestValidationError) -> JSONResponse:
+    sanitized_errors = []
+
+    for error in exc.errors():
+        sanitized_errors.append(
+            {
+                "type": error.get("type"),
+                "loc": error.get("loc"),
+                "msg": error.get("msg"),
+            }
+        )
+
+    return JSONResponse(
+        status_code=422,
+        content={"detail": sanitized_errors},
+    )
 
 allowed_origins = list(
     {

@@ -76,6 +76,7 @@ select {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .main-nav a.active {
@@ -151,7 +152,9 @@ select {
 .cart-item,
 .checkout-layout,
 .details-layout,
-.auth-tabs {
+.auth-tabs,
+.order-card-header,
+.order-item-row {
   display: flex;
   gap: 1rem;
 }
@@ -240,6 +243,25 @@ select {
   width: min(460px, 100%);
 }
 
+.auth-header h1 {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.auth-helper-text,
+.auth-switch-text {
+  color: var(--text-muted);
+}
+
+.auth-switch-text {
+  margin: 0;
+  text-align: center;
+}
+
+.auth-switch-text a {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 .auth-form,
 .checkout-form {
   display: grid;
@@ -313,6 +335,87 @@ select {
   text-align: center;
 }
 
+.compact-hero {
+  margin-bottom: 1.5rem;
+}
+
+.orders-layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.orders-list {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.order-card {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.order-card-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-card-header h2 {
+  margin: 0.35rem 0 0;
+}
+
+.order-status {
+  background: #dff3f1;
+  color: var(--primary);
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  font-weight: 700;
+}
+
+.order-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.order-meta-grid p,
+.order-item-content p,
+.order-address-block p {
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+.order-address-block {
+  grid-column: span 1;
+}
+
+.order-items-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.order-item-row {
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 0.85rem;
+}
+
+.order-item-image {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+
+.order-item-content {
+  flex: 1;
+}
+
+.order-item-content h3 {
+  margin: 0 0 0.35rem;
+}
+
 .message {
   padding: 0.9rem 1rem;
   border-radius: 14px;
@@ -335,7 +438,9 @@ select {
   .details-layout,
   .checkout-layout,
   .cart-item,
-  .cart-summary {
+  .cart-summary,
+  .order-card-header,
+  .order-item-row {
     flex-direction: column;
     align-items: stretch;
   }
@@ -343,6 +448,10 @@ select {
   .details-layout,
   .checkout-layout {
     display: flex;
+  }
+
+  .order-meta-grid {
+    grid-template-columns: 1fr;
   }
 
   .product-actions {
